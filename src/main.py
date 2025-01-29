@@ -6,15 +6,7 @@ from py4j.protocol import Py4JJavaError
 from dashboards import spark
 
 
-modules: list[ModuleType] = [
-    facturacion,
-    controlEnfermeria,
-    facturacion,
-    controlEnfermeria,
-    controlEnfermeria,
-    facturacion,
-    controlEnfermeria,
-]
+modules: list[ModuleType] = [facturacion, controlEnfermeria]
 
 
 success = 0
