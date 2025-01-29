@@ -1,6 +1,6 @@
 from . import spark
 from pyspark.sql.functions import lower
-from utils.db import origin_db
+from utils.db import origin_db, destiny_db
 
 
 def etl():
@@ -19,3 +19,5 @@ def etl():
         & (tenfermeria["HISCSEC"] == transact_dev["ResFolPac"]),
         "left",
     )
+
+    df_joined.write(destiny_db, "pyspark_tenfermeria")
