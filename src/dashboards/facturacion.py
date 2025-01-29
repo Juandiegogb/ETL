@@ -20,4 +20,4 @@ def etl():
         "left",
     )
 
-    df_joined.write(destiny_db, "pyspark_tenfermeria")
+    df_joined.write.jdbc(destiny_db, "pyspark_tenfermeria")
