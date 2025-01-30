@@ -1,12 +1,12 @@
 from types import ModuleType
-from dashboards import facturacion, controlEnfermeria
+from dashboards import control_enfermeria, ingreso_pacientes
 from os import path
 from utils.config import current_datetime, logs_folder
 from py4j.protocol import Py4JJavaError
 from dashboards import spark
 
 
-modules: list[ModuleType] = [facturacion, controlEnfermeria]
+modules: list[ModuleType] = [control_enfermeria, ingreso_pacientes]
 
 
 success = 0
