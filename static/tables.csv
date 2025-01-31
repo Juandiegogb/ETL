@@ -1,1 +1,53 @@
 MAEPAB1, MPCodP MPNumC MPDisp MPUced MPUDoc MPCtvIn
+EMPRESA, EMPCOD EmpRazSoc EmpNit EmpDVer PaisCod EmpCodD EmpCodC 
+BODEGAS, EMPCOD BODEGA BODDESC MCDpto BodDirecc BodCnsg BodDspPis BodIntInv BodComp BodBlqEst BodUbiCT BodBlqDev CnUCod CnUSub BodTras CNCCOD
+CONSUL, ConsDet ConsTpo EMPCOD MCDpto CNCCOD BodQf
+CONSUL1, ConsCod ConsDia CoHEntQui CoHSalQui
+MAEEMP, MENNIT MENOMB MECApi MEEps MEcntr
+MAEEMP1, MENNIT MTUCo1
+MAEEMP3, MENNIT MTUCo1 MTCodP
+MAETPA3, MTUCod MTCodP MTNomP
+CenCost, CNCCOD CnCDsc CnCEst  
+MAEDIA, DMCodi DMNomb DMALTOC DMVIGINM DgnTpo AgrDiaCod
+AGRPDIAG, AgrDiaCod AgrDiaDes
+MaeMed1, MMCODM MMNomM MNom1 MNom2 MApe1 MApe2 MMRegM MTipDoc MMCedM TPCONTCOD
+MaeMed, MMCODM MECodE MEEstE
+MAESED, EMPCOD MCDpto MCDnom MCDEst MCDptCod MCCiuCod  
+CUENTAS, EMPCOD CntCod CntVig CntDsc CntFchCre CntTip CntNat CntNvl CntTrc CntTrm CntInt CntDNAct CntAcuCCs CntAcuCUt CntAcuTer CntOblRf1 CntOblRf2 CntEst CntOblTer CntBlq CntIndAjI MonCod CntFjCaj CntFjCon CntImp CntCieBal CntIndNm CntCnvMon CntTipCmb CntAjsCmb CntIntCxC CntDed TpCCodCap CNTCLC1
+TIPPCUE1, TpCCodCap TpCCod TpCClsCap
+REPBALCO1, EMPCOD RepBalMed RepBalNum RepTotCod RepSubCod RepConCod CntVig CntCod RepConSig
+NICUENTAS, EMPCOD MonCod TpCCodCap NICNTVIG NICNTCOD NICNTDSC NICNTFC NICNTTIP NICNTNAT NICNTNVL NICNTTRC NICNTTRM NICNTINT NICNTDNA NICNTACC NICNTACU NICNTAT NICNTOR1 NICNTOR2 NICNTOT NICNTEST NICNTBLQ NICNTAI NICNTFCJ NICNTFCN NICNTIMP NICNTCB NICNTIN NICNTCM NICNTTC NICNTAC NICNTIC NICNTDED NICNTCLC1
+empress, MEcntr EmpDsc MENNid MESIGLA ORGCOD EmpPrv
+CAPBAS, MPCedu MPTDoc MPNom1 MPNom2 MPApe1 MPApe2 MPNOMC MPFchN MPSexo MDCodD MDCodM MdCodDNac MdCodMNac MPFchA
+MAEPAB, EMPCOD MPMCDpto MPCodP MPNomP MPActPab mpCncCod MPCLAPRO
+MAEPRO, PRCODI PrNomb PrNoOp TpPrCd NivCod prcpto PrPriVez PLNCOD
+TIPPROC,
+CPTSERV, cptcod cptdesc 
+PROVEEDOR1,
+TIPDOC,
+MAEESP, MECodE MENomE EspEst 
+MAECONC, CncCd CncDes
+maesumn, MSCodi MSPrAc CncCd MSForm MsPrAcDs MSDesc MsCodDes MSPOSX MaMedCon
+MAESUM1, MSRESO MSCodi MSPrAc CncCd MSForm MSNomG MsTipo MsSGrpCd MsGrpCod MsAltCos MSPPub MsConPrm MsPPVU MsCstprm
+MAEPRIACT, PriActNum PriActCod PriActCod1 PriActDsc
+TERCEROS, TrcCod TrcTpoIde TrcRazSoc TrcDir TrcTlf TrcEmail TCoCod TrcNit TrcTipTrc TrcRepLeg TrcPrmNom TrcSegNom TrcPrmApe TrcSegApe TrcAct
+CENUTIL,
+CENUTIL1,
+FrmSmns, HISCKEY HISTipDoc HISCSEC MSCodi MSPrAc MSForm CncCd hisCanSum HCFSFrH FSmCntDia FSmMsReso FSmFhrReg HCFSVIA HCFcHrDsp HCSmCnDsp FsmMCDpto FsmEmpCod HICtvIN FRMCONGEN fstitrDi
+CITMED, CitEmp CitSed CitNum CitFec CitEspMed CitPriVez CitPro CitNroCt1 CitCons CitCodMed
+CTRLCITAS, CitEmp CitSed CitNum CitCed CitTipDoc CitFchHra CitCmbDto fila_estado
+CITMED1, CitEmp CitSed CitNum CitCed CitTipDoc CitFecSol CitNroCto CitCtvIng
+citmed2, CitEmp CitSed CitNum MMCODM MECodE METipME
+HCCOM, HISCKEY HISCNUM HISTipDoc HISTSANG
+INTERCN,
+HCCOM1, HISCKEY HISTipDoc HisCitNum HisFHorAt hisfsal HISCSEC HCtvIn1 hiscltr EMPCOD MCDpto fila filadesc HISCLPR FHCCodCto HCEsp HISCMMED hiscfk FHCIndEsp HisFolOri
+INGRESOMP,
+HCCOM5, HISCKEY HISTipDoc HISCSEC HCPrcCod HCtvIn5
+HCCOM51, HISCKEY HISTipDoc HISCSEC HCPrcCod HCPrcCns 
+HOJOBLPRV,
+ENTRALM,
+ENTRALM1,
+ADGLOSAS, MPNFac MATipDoc GloCtvo GloFchRec GloUsuRec GloEdoRec GloVlrTGlo GloVlrTAcp GloVlrTSop GloVlrTPen GloVlrTAEP GloVlrTACo GloVlrTCon GloVlrTAcC GloVlrTPCo GloVlTSCo GloVlTACo GloFchRad GloUsuRad GloNumRad GloFchNot GloUsuNot GloEdo GloEdoNot GloTipReg GloNumDoc GloTipDoc GloFecDoc GloNumDoc1 GloTipDoc1 GloFecDoc1 GloEdoCoGl GloEdoCoNo GloEdoAfTe GloEdoATe1 GloEdoATe2 GloConRec GloConNot GloFecConR GloFecConN GloGenNot GloTipCon GloUsuRNo GloNumRNo GloFchRNo GloDocNCo GloUsuCon GloFchNoC GloNroNCo GloUsrMod GloFchMod GloDocAcC GloNroAcC GloUsuAcC GloFchAcC GloVTConc GloFchCon GloUsuNoC GloFecConC GloCntCon GloIndDev GloUsuNCF GloUsCNot GloUsCCon GloSed SccEmpG SCCCodG GloConDire GloCnsOrQ GloUltCoC GloUltCop GloIndUso GloIndUsU GloPrfGlo GloPrfNot GloPrfCon GloEmpRem GloMcdRem GloDocRem GloNumRem
+GLOSAS,
+ADMGLO11, AGlEmpCd AGlMcdpt AGlDocCd AGlRemNr MPNFac MATipDoc AGlFacEs AGlNRdFac AglFRdFac AGlUsrRad AGlConDoc AGlConNro AGlConFec AGLPERCER AGLFCHRAD AGLFACDEV AGLANPCNS IDPRC0014
+ADMGLO01, AGlEmpCd AGlMcdpt AGlDocCd AGlRemNr EmprNit AGlRemFc AGlRemHr AGlRadNr AGlRadFc AGlRadHr AGlRadCn AGlRadVr AGlRemEs AGlFchIni AglFchFin AglUsrIng AglUsrAnu AglDscAnu AglFchAnu AglEveGe AGLREMANP IDPRC0009
