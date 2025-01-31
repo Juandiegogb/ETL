@@ -1,18 +1,10 @@
-import vaex
+from pyspark.sql import SparkSession
 
 
-team = vaex.open("csv/team.csv")
-team_details = vaex.open("csv/team_details.csv")
-team_history = vaex.open("csv/team_history.csv")
+spark: SparkSession = SparkSession.builder.appName("ETL").getOrCreate()
 
 
-
-pbp = (
-    vaex.open("csv/play_by_play.csv")
-    .groupby("player1_name", agg=[vaex.agg.count("player1_name")])
-    .filter("player1_name")
-    .sort("player1_name_count", ascending=False)
-)
+df = spark.read.csv("static/tables.csv")
 
 
-print(pbp)
+df.write.parquet("src/tables")
