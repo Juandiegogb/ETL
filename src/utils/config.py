@@ -3,7 +3,7 @@
 from os import getenv
 from json import loads, JSONDecodeError
 from dotenv import load_dotenv
-from utils.entities import DB, Url_dict, Engines
+from entities.various import DB, Url_dict, Engines
 from os import getcwd, path
 import os
 from datetime import datetime
