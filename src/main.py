@@ -11,7 +11,12 @@ from entities.worker import Worker
 
 origin_db = get_url("ORIGIN_DB")
 destiny_db = get_url("TEST_BI")
-spark: SparkSession = SparkSession.builder.appName("ETL").getOrCreate()
+spark: SparkSession = (
+    SparkSession.builder.appName("ETL")
+    .master("local[*]")
+    .config("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED")
+    .getOrCreate()
+)
 
 
 worker = Worker(spark)

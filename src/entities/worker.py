@@ -31,6 +31,6 @@ class Worker:
                 try:
                     dataframe.write.parquet(f"datalake/{name}", mode="overwrite")
                 except Py4JJavaError as e:
-                    print(e.java_exception)
+                    print("java err")
                 except AttributeError:
                     continue
