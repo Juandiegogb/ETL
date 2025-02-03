@@ -10,7 +10,7 @@ El usuario de Imperium BI no debe tener permiso de escritura en la base de datos
 - tablero control de citas : roto
 - tablero agenda medica : roto
 - tablero control de enfermeria : 
-  - consulta directa a base da datos **Stage** en el schema **dbo**
+  - consulta directa a base de datos **Stage** en el schema **dbo**
   
 
     <details>
