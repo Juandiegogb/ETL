@@ -1,10 +1,7 @@
-from pyspark.sql import SparkSession
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-spark: SparkSession = SparkSession.builder.appName("ETL").getOrCreate()
-
-
-df = spark.read.csv("static/tables.csv")
-
-
-df.write.parquet("src/tables")
+print(os.getenv("IMPERIUM_WORKDIR"))
