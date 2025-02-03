@@ -32,10 +32,6 @@ class DB:
         try:
             create_engine(test_connection_url).connect()
         except OperationalError:
-            print_error(
-                f"Login failed with {variable_name} credentials"
-            )
+            print_error(f"Login failed with {variable_name} credentials")
 
-        self.url = (
-            f"jdbc:sqlserver://{host}:{port};databaseName={db_name};user={user};password={pwd};encrypt=false;",
-        )
+        self.url = f"jdbc:sqlserver://{host}:{port};databaseName={db_name};user={user};password={pwd};encrypt=false;"

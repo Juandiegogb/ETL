@@ -1,7 +1,9 @@
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+import vaex
 
 
-print(os.getenv("IMPERIUM_WORKDIR"))
+df = vaex.open("C:/Users/JuanGBe/Downloads/data/*.parquet")
+
+brands = df.groupby("brand", agg="count").sort("count")
+
+print(brands)
+print(df.schema())

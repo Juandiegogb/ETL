@@ -1,15 +1,11 @@
 import vaex
+from os import PathLike
+from os import path
 
 
-def etl():
-    df = vaex.open("datalake/tenfermeria/*.parquet")
+def etl(workdir: PathLike):
+    df = vaex.open(path.join(workdir, "ADGLOSAS", "*.parquet"))
     print(df.schema())
-
-
-
-
-
-
 
     # transact_dev = spark.read.jdbc(origin_db, "Hosvital.TransactDevicesPivot")
 

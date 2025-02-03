@@ -1,2 +1,2 @@
-def etl():
+def etl(workdir):
     pass
