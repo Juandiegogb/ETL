@@ -51,13 +51,11 @@ class Worker:
 
             ## this loop check if the tables exists in DB
             for row in data:
-                print(row, "1111")
                 name = row[0].strip()
                 columns = [col for col in row[1].strip().split(" ") if col]
                 spark.read.jdbc(self.data_origin_url, name)
 
             for row in data:
-                print(row, "222")
                 name = row[0].strip()
                 columns = [col for col in row[1].strip().split(" ") if col]
 
