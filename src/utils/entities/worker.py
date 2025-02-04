@@ -74,7 +74,7 @@ class Worker:
             print_error("Invalid csv (Comma separated values) format, check the file")
 
         except AnalysisException as e:
-            print(e.args)
+            print(vars(e))
             print_error("youuuu")
 
         except Py4JJavaError:
