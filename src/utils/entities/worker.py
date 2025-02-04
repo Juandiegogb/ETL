@@ -6,6 +6,7 @@ import os
 from utils.tools.custom_print import print_error
 from utils.entities.db import DB
 from types import ModuleType
+from pyspark.errors.exceptions.captured import AnalysisException
 
 
 class Worker:
@@ -73,6 +74,10 @@ class Worker:
 
         except IndexError:
             print_error("Invalid csv (Comma separated values) format, check the file")
+
+        except AnalysisException as e:
+            print(e.args)
+            print_error("youuuu")
 
         except Py4JJavaError:
             print_error(f"Table {name} not found")
