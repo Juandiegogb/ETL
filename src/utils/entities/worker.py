@@ -15,6 +15,7 @@ class Worker:
         self.data_origin_url: str
         self.data_destiny_url: str
         self.datalake: PathLike
+        self.warehouse: PathLike
 
         workdir = os.getenv("IMPERIUM_WORKDIR")
 
@@ -26,6 +27,7 @@ class Worker:
 
         self.workdir = workdir
         self.datalake = path.join(self.workdir, "datalake")
+        self.warehouse = path.join(self.workdir, "warehouse")
 
     def getWorkdir(self) -> PathLike:
         return self.workdir
@@ -84,8 +86,25 @@ class Worker:
             )
 
         for mod in modules:
-            mod.etl(self.datalake)
+            mod.etl(self.datalake, self.warehouse)
 
     def test(self):
         datalake_memers = os.listdir(path.join(self.workdir, "datalake"))
         print(datalake_memers)
+
+    def load_data(self):
+        try:
+            tables = [
+                [table, path.join(self.warehouse, table)]
+                for table in os.listdir(self.warehouse)
+            ]
+
+            for table_path in tables:
+                name = table_path[0]
+                df = self.spark.read.parquet(table_path)
+                df.write.jdbc(self.data_destiny_url, name, mode="overwrite")
+
+            os.removedirs(self.datalake, self.warehouse)
+
+        except FileNotFoundError:
+            print_error("Folder warehouse not found, use worker.execute to create it")

@@ -1,7 +1,6 @@
 from utils.entities.worker import Worker
 from dotenv import load_dotenv
 from utils.entities.db import DB
-from os import PathLike
 from utils.dashboards import control_enfermeria, ingreso_pacientes
 
 load_dotenv()
@@ -14,6 +13,6 @@ modules = [control_enfermeria, ingreso_pacientes]
 
 
 worker: Worker = Worker()
-workdir: PathLike = worker.getWorkdir()
-worker.create_datalake(origin_db)
+# worker.create_datalake(origin_db)
 # worker.execute(modules)
+worker.load_data()
