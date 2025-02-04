@@ -1,9 +1,9 @@
 import csv
 from py4j.protocol import Py4JJavaError
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, Row
 from os import path, PathLike
 import os
-from utils.tools.custom_print import print_error
+from utils.tools.custom_print import print_error, print_success
 from utils.entities.db import DB
 from types import ModuleType
 from pyspark.errors.exceptions.captured import AnalysisException
@@ -30,41 +30,54 @@ class Worker:
         self.datalake = path.join(self.workdir, "datalake")
         self.warehouse = path.join(self.workdir, "warehouse")
 
-    def getWorkdir(self) -> PathLike:
-        return self.workdir
+        if not path.exists(self.warehouse):
+            os.mkdir(self.warehouse)
+
+        print_success("Worker created")
 
     def create_datalake(self, database: DB):
-        self.data_origin_url: str = database.url
         self.spark = (
             SparkSession.builder.appName("ETL")
             .master("local[*]")
             .config("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED")
             .getOrCreate()
         )
+        self.spark.sparkContext.setLogLevel("ERROR")
+        self.data_origin_url: str = database.url
 
-        spark = self.spark
-        workdir = self.workdir
-        csv_file = path.join(workdir, "tables.csv")
+        tables_in_db = (
+            self.spark.read.jdbc(self.data_origin_url, "INFORMATION_SCHEMA.TABLES")
+            .select("TABLE_NAME")
+            .collect()
+        )
+
+        print_success("Creating datalake ...")
+        csv_file = path.join(self.workdir, "tables.csv")
         try:
             with open(csv_file, "r", encoding="UTF-8") as file:
                 data = list(csv.reader(file))
 
-            ## this loop check if the tables exists in DB
-            for row in data:
-                name = row[0].strip()
-                columns = [col for col in row[1].strip().split(" ") if col]
-                spark.read.jdbc(self.data_origin_url, name)
+            tables_in_db = [row["TABLE_NAME"].upper() for row in tables_in_db]
+            expected_tables = [row[0].upper() for row in data]
+            missing_tables = [
+                table for table in expected_tables if table not in tables_in_db
+            ]
+
+            if missing_tables:
+                print_error(
+                    f"This tables {missing_tables} not exist.\nData origin -> {database.db_host}.{database.db_name}"
+                )
 
             for row in data:
                 name = row[0].strip()
                 columns = [col for col in row[1].strip().split(" ") if col]
 
                 if columns:
-                    dataframe = spark.read.jdbc(self.data_origin_url, name).select(
+                    dataframe = self.spark.read.jdbc(self.data_origin_url, name).select(
                         columns
                     )
                 else:
-                    dataframe = spark.read.jdbc(self.data_origin_url, name)
+                    dataframe = self.spark.read.jdbc(self.data_origin_url, name)
                 dataframe.write.parquet(f"{self.datalake}/{name}", mode="overwrite")
 
         except FileNotFoundError:
@@ -80,7 +93,7 @@ class Worker:
         except Py4JJavaError:
             print_error(f"Table {name} not found")
 
-        file.close()
+        print_success("Datalake created")
 
     def execute(self, modules: list[ModuleType]):
         if not all(isinstance(mod, ModuleType) for mod in modules):

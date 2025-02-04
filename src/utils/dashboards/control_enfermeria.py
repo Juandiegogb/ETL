@@ -1,12 +1,12 @@
 import vaex
 from os import PathLike
 from os import path
-
+import os
 
 def etl(workdir: PathLike, warehouse: PathLike):
     df = vaex.open(path.join(workdir, "ADGLOSAS", "*.parquet"))
-    df.export_parquet(path.join(warehouse, "ADGLOSAS"))
-    print(df.schema())
+    df.export_parquet(path.join(warehouse, "adglosas.parquet"))
+    print("hello from module")
 
     # transact_dev = spark.read.jdbc(origin_db, "Hosvital.TransactDevicesPivot")
 

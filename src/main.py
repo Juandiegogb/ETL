@@ -14,5 +14,6 @@ modules = [control_enfermeria, ingreso_pacientes]
 
 worker: Worker = Worker()
 worker.create_datalake(origin_db)
-worker.execute(modules)
-worker.load_data()
+# worker.test()
+# worker.execute(modules)
+# worker.load_data()

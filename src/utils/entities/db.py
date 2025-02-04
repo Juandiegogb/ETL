@@ -7,6 +7,10 @@ from sqlalchemy.exc import OperationalError
 
 class DB:
     def __init__(self, variable_name: str):
+        self.url: str
+        self.db_name: str
+        self.db_host: str
+
         env_variable = getenv(variable_name)
 
         if env_variable:
@@ -33,5 +37,6 @@ class DB:
             create_engine(test_connection_url).connect()
         except OperationalError:
             print_error(f"Login failed with {variable_name} credentials")
-
+        self.db_host = host
+        self.db_name = db_name
         self.url = f"jdbc:sqlserver://{host}:{port};databaseName={db_name};user={user};password={pwd};encrypt=false;"
