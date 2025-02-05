@@ -109,6 +109,7 @@ class Worker:
             )
 
         for i in modules:
+            print_success("executing module")
             i.etl(self.datalake, self.warehouse)
 
         # chunks: list[ModuleType] = np.array_split(modules, self.cpu)
