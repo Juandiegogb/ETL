@@ -1,13 +1,15 @@
 import csv
 from py4j.protocol import Py4JJavaError
 from pyspark.sql import SparkSession
-from os import path, PathLike
+from os import path, PathLike, cpu_count
 import os
 from utils.tools.custom_print import print_error, print_success
 from utils.entities.db import DB
 from types import ModuleType
 from pyspark.errors.exceptions.captured import AnalysisException
 import shutil
+import numpy as np
+from multiprocessing import Process
 
 
 class Worker:
@@ -18,6 +20,7 @@ class Worker:
         self.data_destiny_url: str
         self.datalake: PathLike
         self.warehouse: PathLike
+        self.cpu: int = cpu_count()
 
         workdir = os.getenv("IMPERIUM_WORKDIR")
 
@@ -30,7 +33,6 @@ class Worker:
         self.workdir = workdir
         self.datalake = path.join(self.workdir, "datalake")
         self.warehouse = path.join(self.workdir, "warehouse")
-
 
         print_success("Worker created")
 
@@ -89,7 +91,6 @@ class Worker:
 
         except AnalysisException as e:
             print(vars(e))
-            print_error("youuuu")
 
         except Py4JJavaError as e:
             print(e)
@@ -107,8 +108,17 @@ class Worker:
                 "modules arg must be a list of modules (ModuleType) from worker.execute()"
             )
 
-        for mod in modules:
-            mod.etl(self.datalake, self.warehouse)
+        for i in modules:
+            i.etl(self.datalake, self.warehouse)
+
+        # chunks: list[ModuleType] = np.array_split(modules, self.cpu)
+
+        # def process_chunck(chunck):
+        #     return chunck.etl(self.datalake, self.warehouse)
+
+        # for chunk in chunks:
+        #     p = Process(target=process_chunck, args=(chunk,))
+        #     p.start()
 
     def test(self):
         datalake_memers = os.listdir(path.join(self.workdir, "datalake"))
