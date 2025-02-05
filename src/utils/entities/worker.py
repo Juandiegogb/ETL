@@ -117,8 +117,8 @@ class Worker:
         def process_chunck(chunck):
             return chunck.etl(self.datalake, self.warehouse)
 
-        for chunk in chunks:
-            p = Process(target=process_chunck, args=(chunk,))
+        for i in range(10):
+            p = Process(target=process_chunck, args=(modules[0],))
             p.start()
 
     def test(self):
