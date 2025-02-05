@@ -108,9 +108,9 @@ class Worker:
                 "modules arg must be a list of modules (ModuleType) from worker.execute()"
             )
 
-        for i in modules:
+        for i in range(10):
             print_success("executing module")
-            i.etl(self.datalake, self.warehouse)
+            modules[0].etl(self.datalake, self.warehouse)
 
         # chunks: list[ModuleType] = np.array_split(modules, self.cpu)
 
