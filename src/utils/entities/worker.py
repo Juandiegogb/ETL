@@ -108,18 +108,18 @@ class Worker:
                 "modules arg must be a list of modules (ModuleType) from worker.execute()"
             )
 
-        for i in range(10):
-            print_success("executing module")
-            modules[0].etl(self.datalake, self.warehouse)
+        # for i in range(10):
+        #     print_success("executing module")
+        #     modules[0].etl(self.datalake, self.warehouse)
 
-        # chunks: list[ModuleType] = np.array_split(modules, self.cpu)
+        chunks: list[ModuleType] = np.array_split(modules, self.cpu)
 
-        # def process_chunck(chunck):
-        #     return chunck.etl(self.datalake, self.warehouse)
+        def process_chunck(chunck):
+            return chunck.etl(self.datalake, self.warehouse)
 
-        # for chunk in chunks:
-        #     p = Process(target=process_chunck, args=(chunk,))
-        #     p.start()
+        for chunk in chunks:
+            p = Process(target=process_chunck, args=(chunk,))
+            p.start()
 
     def test(self):
         datalake_memers = os.listdir(path.join(self.workdir, "datalake"))
