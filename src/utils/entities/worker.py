@@ -98,6 +98,9 @@ class Worker:
 
         print_success("Datalake created")
 
+    def process_chunck(self, chunck):
+        return chunck.etl(self.datalake, self.warehouse)
+
     def execute(self, modules: list[ModuleType]):
         print_success("Creating dataWarehouse")
         if not path.exists(self.warehouse):
@@ -114,11 +117,8 @@ class Worker:
 
         chunks: list[ModuleType] = np.array_split(modules, self.cpu)
 
-        def process_chunck(chunck):
-            return chunck.etl(self.datalake, self.warehouse)
-
-        for i in range(10):
-            p = Process(target=process_chunck, args=(modules[0],))
+        for chunk in chunks:
+            p = Process(target=self.process_chunck, args=(chunk,))
             p.start()
 
     def test(self):
