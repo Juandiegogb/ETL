@@ -1,12 +1,13 @@
 import csv
 from py4j.protocol import Py4JJavaError
-from pyspark.sql import SparkSession, Row
+from pyspark.sql import SparkSession
 from os import path, PathLike
 import os
 from utils.tools.custom_print import print_error, print_success
 from utils.entities.db import DB
 from types import ModuleType
 from pyspark.errors.exceptions.captured import AnalysisException
+import shutil
 
 
 class Worker:
@@ -30,15 +31,15 @@ class Worker:
         self.datalake = path.join(self.workdir, "datalake")
         self.warehouse = path.join(self.workdir, "warehouse")
 
-        if not path.exists(self.warehouse):
-            os.mkdir(self.warehouse)
-
         print_success("Worker created")
 
     def create_datalake(self, database: DB):
+        print_success("Creating datalake ...")
         self.spark = (
             SparkSession.builder.appName("ETL")
             .master("local[*]")
+            .config("spark.sql.shuffle.partitions", "8")
+            .config("spark.executor.memory", "4g")
             .config("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED")
             .getOrCreate()
         )
@@ -51,7 +52,6 @@ class Worker:
             .collect()
         )
 
-        print_success("Creating datalake ...")
         csv_file = path.join(self.workdir, "tables.csv")
         try:
             with open(csv_file, "r", encoding="UTF-8") as file:
@@ -90,12 +90,17 @@ class Worker:
             print(vars(e))
             print_error("youuuu")
 
-        except Py4JJavaError:
+        except Py4JJavaError as e:
+            print(e)
             print_error(f"Table {name} not found")
 
         print_success("Datalake created")
 
     def execute(self, modules: list[ModuleType]):
+        print_success("Creating dataWarehouse")
+        if not path.exists(self.warehouse):
+            os.mkdir(self.warehouse)
+
         if not all(isinstance(mod, ModuleType) for mod in modules):
             print_error(
                 "modules arg must be a list of modules (ModuleType) from worker.execute()"
@@ -108,19 +113,27 @@ class Worker:
         datalake_memers = os.listdir(path.join(self.workdir, "datalake"))
         print(datalake_memers)
 
-    def load_data(self):
-        try:
-            tables = [
-                [table, path.join(self.warehouse, table)]
-                for table in os.listdir(self.warehouse)
-            ]
+    def load_data(self, database: DB):
+        self.data_destiny_url = database.url
 
-            for table_path in tables:
-                name = table_path[0]
-                df = self.spark.read.parquet(table_path)
-                df.write.jdbc(self.data_destiny_url, name, mode="overwrite")
+        if self.data_destiny_url == self.data_origin_url:
+            print_error("Origin DB and destiny DB are the same")
 
-            os.removedirs(self.datalake, self.warehouse)
+        # try:
+        #     tables = [
+        #         [table, path.join(self.warehouse, table)]
+        #         for table in os.listdir(self.warehouse)
+        #     ]
 
-        except FileNotFoundError:
-            print_error("Folder warehouse not found, use worker.execute to create it")
+        #     for table_path in tables:
+        #         name = table_path[0]
+        #         df = self.spark.read.parquet(table_path)
+        #         df.write.jdbc(self.data_destiny_url, name, mode="overwrite")
+
+        #     os.removedirs(self.datalake, self.warehouse)
+
+        # except FileNotFoundError:
+        #     print_error("Folder warehouse not found, use worker.execute to create it")
+
+        shutil.rmtree(self.datalake)
+        shutil.rmtree(self.warehouse)
