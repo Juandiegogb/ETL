@@ -35,12 +35,12 @@ CENUTIL,
 CENUTIL1,
 FrmSmns, HISCKEY HISTipDoc HISCSEC MSCodi MSPrAc MSForm CncCd hisCanSum HCFSFrH FSmCntDia FSmMsReso FSmFhrReg HCFSVIA HCFcHrDsp HCSmCnDsp FsmMCDpto FsmEmpCod HICtvIN FRMCONGEN fstitrDi
 CITMED, CitEmp CitSed CitNum CitFec CitEspMed CitPriVez CitPro CitNroCt1 CitCons CitCodMed
-CTRLCITAS, CitEmp CitSed CitNum CitCed CitTipDoc CitFchHra CitCmbDto 
+CTRLCITAS, CitEmp CitSed CitNum CitCed CitTipDoc CitFchHra CitCmbDto
 CITMED1, CitEmp CitSed CitNum CitCed CitTipDoc CitFecSol CitNroCto CitCtvIng
 citmed2, CitEmp CitSed CitNum MMCODM MECodE METipME
 HCCOM, HISCKEY HISCNUM HISTipDoc HISTSANG
 INTERCN,
-HCCOM1, HISCKEY HISTipDoc HisCitNum HisFHorAt hisfsal HISCSEC HCtvIn1 hiscltr EMPCOD MCDpto fila filadesc HISCLPR FHCCodCto HCEsp HISCMMED hiscfk FHCIndEsp HisFolOri
+HCCOM1, HISCKEY HISTipDoc HisCitNum HisFHorAt hisfsal HISCSEC HCtvIn1 hiscltr EMPCOD MCDpto HISCLPR FHCCodCto HCEsp HISCMMED hiscfk FHCIndEsp HisFolOri
 INGRESOMP,
 HCCOM5, HISCKEY HISTipDoc HISCSEC HCPrcCod HCtvIn5
 HCCOM51, HISCKEY HISTipDoc HISCSEC HCPrcCod HCPrcCns 

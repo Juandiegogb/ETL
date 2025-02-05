@@ -23,3 +23,17 @@ def etl(workdir: PathLike, warehouse: PathLike):
     # )
 
     # df_joined.write.jdbc(destiny_db, "pyspark_tenfermeria" , mode="overwrite")
+
+
+
+""""
+dimPatient :traer datos de personas from CAPBAS
+dimDiag : diagnosticos from maedia => traer datos agrupados de AGRPDIAG
+dimPavilion : traer datos from MAEPAB
+dimOperator : traer datos from empress
+dimConsultingRoom : traer datos from consul consul1
+dimContract : traer datos from MAEEMP
+dimBussines group : traer datos from EMPRESA
+dimHeadquarters : traer datos from MAESED
+
+"""
