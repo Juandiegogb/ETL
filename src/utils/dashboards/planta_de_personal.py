@@ -3,7 +3,7 @@ from os import path
 
 
 def etl(algo, warehouse):
-    path_file = path.join(warehouse, f"{round(time())}.txt")
+    path_file = pf"{round(time())}.txt")
     with open(path_file) as file:
         for i in range(10000):
             file.write(f"{i}\n")
