@@ -30,6 +30,8 @@ class Worker:
         self.workdir = workdir
         self.datalake = path.join(self.workdir, "datalake")
         self.warehouse = path.join(self.workdir, "warehouse")
+        shutil.rmtree(self.datalake)
+        shutil.rmtree(self.warehouse)
 
         print_success("Worker created")
 
