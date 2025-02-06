@@ -150,3 +150,4 @@ class Worker:
 
         shutil.rmtree(self.datalake)
         shutil.rmtree(self.warehouse)
+        print_success("Data loaded succesfully, datalake and warehouse were deleted")
