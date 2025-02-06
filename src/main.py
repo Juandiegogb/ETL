@@ -1,15 +1,7 @@
-from utils.entities.worker import Worker
-from dotenv import load_dotenv
-from utils.entities.db import DB
-from utils.dashboards import test
-
-
-modules = [test, test, test, test, test, test, test, test, test]
+from classes.worker import Worker
 
 
 def main():
-    load_dotenv()
-
     origin_db = DB("ORIGIN_DB")
     destiny_db = DB("TEST_BI")
 
@@ -17,14 +9,11 @@ def main():
     worker.create_datalake(origin_db)
 
     # worker.test()
-    worker.execute(modules)
+    worker.execute(tasks)
     worker.load_data(destiny_db)
 
 
-def test():
-    for i in modules:
-        i.etl(" fasf", "C:\ImperiumBI\warehouse")
-
-
 if __name__ == "__main__":
-    main()
+    # main()
+    w = Worker()
+    w.test()

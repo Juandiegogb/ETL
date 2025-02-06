@@ -1,52 +1,16 @@
 import csv
 from py4j.protocol import Py4JJavaError
 from pyspark.sql import SparkSession
-from os import path, PathLike, cpu_count
+from os import path
 import os
-from utils.tools.custom_print import print_error, print_success
-from utils.entities.db import DB
-from types import ModuleType
+from classes.etl import ETL
 from pyspark.errors.exceptions.captured import AnalysisException
 import shutil
-import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 
 
-class Worker:
-    def __init__(self):
-        self.spark: SparkSession
-        self.workdir: PathLike
-        self.data_origin_url: str
-        self.data_destiny_url: str
-        self.datalake: PathLike
-        self.warehouse: PathLike
-        self.cpu: int = cpu_count()
-
-        workdir = os.getenv("IMPERIUM_WORKDIR")
-
-        if not workdir:
-            print_error("Missing environment variable IMPERIUM_WORKDIR")
-
-        if not path.exists(workdir):
-            print_error(f"Directory '{workdir}' not found")
-
-        self.workdir = workdir
-        self.datalake = path.join(self.workdir, "datalake")
-        self.warehouse = path.join(self.workdir, "warehouse")
-
-        print_success("Worker created")
-
-    def create_datalake(self, database: DB):
-        print_success("Creating datalake ...")
-        self.spark = (
-            SparkSession.builder.appName("ETL")
-            .master("local[*]")
-            .config("spark.sql.shuffle.partitions", "8")
-            .config("spark.executor.memory", "4g")
-            .config("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED")
-            .getOrCreate()
-        )
-        self.spark.sparkContext.setLogLevel("ERROR")
+class Worker(ETL):
+    def create_datalake(self):
         self.data_origin_url: str = database.url
 
         tables_in_db = (
@@ -102,17 +66,13 @@ class Worker:
         for module in chunck:
             module.etl(self.datalake, self.warehouse)
 
-    def execute(self, modules: list[ModuleType]):
+    def execute(self, tasks: list[Task]):
         print_success("Creating dataWarehouse")
+
         if not path.exists(self.warehouse):
             os.mkdir(self.warehouse)
 
-        if not all(isinstance(mod, ModuleType) for mod in modules):
-            print_error(
-                "modules arg must be a list of modules (ModuleType) from worker.execute()"
-            )
-
-        functions = [mod.etl for mod in modules]
+        tasks = [task.execute_task for task in tasks]
 
         with ProcessPoolExecutor() as executor:
             futures = [
@@ -121,10 +81,6 @@ class Worker:
             ]
             for future in futures:
                 future.result()
-
-    def test(self):
-        datalake_memers = os.listdir(path.join(self.workdir, "datalake"))
-        print(datalake_memers)
 
     def load_data(self, database: DB):
         self.data_destiny_url = database.url
