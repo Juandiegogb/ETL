@@ -1,6 +1,6 @@
 import csv
 from py4j.protocol import Py4JJavaError
-from pyspark.sql import SparkSession 
+from pyspark.sql import SparkSession
 from os import path, PathLike, cpu_count
 import os
 from utils.tools.custom_print import print_error, print_success
@@ -99,7 +99,8 @@ class Worker:
         print_success("Datalake created")
 
     def process_chunck(self, chunck):
-        return chunck.etl(self.datalake, self.warehouse)
+        for module in chunck:
+            module.etl(self.datalake, self.warehouse)
 
     def execute(self, modules: list[ModuleType]):
         print_success("Creating dataWarehouse")
