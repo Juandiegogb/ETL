@@ -9,7 +9,7 @@ from types import ModuleType
 from pyspark.errors.exceptions.captured import AnalysisException
 import shutil
 import numpy as np
-from multiprocessing import Process
+from concurrent.futures import ProcessPoolExecutor
 
 
 class Worker:
@@ -112,15 +112,15 @@ class Worker:
                 "modules arg must be a list of modules (ModuleType) from worker.execute()"
             )
 
-        # for i in range(10):
-        #     print_success("executing module")
-        #     modules[0].etl(self.datalake, self.warehouse)
+        functions = [mod.etl for mod in modules]
 
-        chunks: list[ModuleType] = np.array_split(modules, self.cpu)
-
-        for chunk in chunks:
-            p = Process(target=self.process_chunck, args=(chunk,))
-            p.start()
+        with ProcessPoolExecutor() as executor:
+            futures = [
+                executor.submit(func, self.datalake, self.warehouse)
+                for func in functions
+            ]
+            for future in futures:
+                future.result()
 
     def test(self):
         datalake_memers = os.listdir(path.join(self.workdir, "datalake"))

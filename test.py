@@ -1,25 +1,22 @@
-from multiprocessing import Process
+from concurrent.futures import ProcessPoolExecutor
 from time import sleep
 
 
-def test(i):
+def test():
     sleep(1)
-    print(i)
+    print("hola")
 
 
-class Worker:
-    def __init__(self):
-        pass
+def main():
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(test) for i in range(8)]
 
-    def execute(self, modules: list[str]):
-        for i in modules:
-            p = Process(target=test, args=(i,))
-            p.start()
-            p.join()
+
+def slow():
+    for i in range(8):
+        test()
 
 
 if __name__ == "__main__":
-    w = Worker()
-
-    modules = ["h", "j", "j", "j", "j", "j", "j"]
-    w.execute(modules)
+    slow()
+    # main()
